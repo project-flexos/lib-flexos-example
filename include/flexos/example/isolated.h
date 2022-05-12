@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: BSD-3-Clause */
 /*
- * Copyright (c) 2020-2021, Hugo Lefeuvre <hugo.lefeuvre@manchester.ac.uk>
+ * Copyright (c) 2020-2022, Hugo Lefeuvre <hugo.lefeuvre@manchester.ac.uk>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -31,31 +31,14 @@
 #ifndef LIBFLEXOSEXAMPLE_H
 #define LIBFLEXOSEXAMPLE_H
 
-#define FLEXOS_TEST_CONCURRENCY_BUF_SIZE 128
+void lib_func(void (*callback)(int), char *static_buf,
+    int *stack_int, char *stack_buf);
 
-/* The main thread has tid 0 and the RPC server has tid 1, so
- * the worker threads will have tids starting from 2. */
-#define FLEXOS_TEST_CONCURRENCY_TID_BIAS 2
-
-#define FLEXOS_TEST_CONCURRENCY_MAX_THREADS 10
-
-int   function1(char *buf);
-char *function2(void);
-
-int ping1(int arg1, int arg2, int arg3, int arg4, int arg5, int arg6);
-int ping2(int arg1, int arg2, int arg3, int arg4, int arg5, int arg6);
-int ping3(int arg1, int arg2, int arg3, int arg4, int arg5, int arg6);
-int ping4(int arg1, int arg2, int arg3, int arg4, int arg5, int arg6);
-int ping5(int arg1, int arg2, int arg3, int arg4, int arg5, int arg6);
-int ping6(int arg1, int arg2, int arg3, int arg4, int arg5, int arg6);
-void reset_runs(void);
-
-void write_to_buf(size_t buf_index, size_t i, char byte);
-char read_from_buf(size_t buf_index, size_t i);
-
-unsigned int fib1(unsigned int n);
-
-void lib_test_start();
-int is_main_thread_exited();
+/* Instrumentation to reveal missing gates; should be automated within the
+ * toolchain, it's just copy and paste. */
+void __cyg_profile_func_enter (void *this_fn,
+                               void *call_site);
+void __cyg_profile_func_exit  (void *this_fn,
+                               void *call_site);
 
 #endif /* LIBFLEXOSEXAMPLE_H */

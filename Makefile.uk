@@ -42,3 +42,4 @@ CINCLUDES-$(CONFIG_LIBFLEXOSEXAMPLE) += -I$(LIBFLEXOSEXAMPLE_BASE) \
 # Glue code
 ################################################################################
 LIBFLEXOSEXAMPLE_SRCS-y += $(LIBFLEXOSEXAMPLE_BASE)/isolated.c
+LIBFLEXOSEXAMPLE_CFLAGS-y += -finstrument-functions -finstrument-functions-exclude-function-list=__cyg_profile_func_enter,__cyg_profile_func_exit
